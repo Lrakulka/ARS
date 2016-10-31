@@ -9,6 +9,7 @@
 #include "Options/GameControl/ReadyState.h"
 
 #include "Options/HeadControl/HeadControl.h"
+#include "Options/HeadControl/LookLeftAndRight.h"
 #include "Options/HeadControl/LookForward.h"
 
 #include "Options/Output/Annotation.h"
@@ -31,6 +32,7 @@
 #include "Options/Output/PlaySound.h"
 
 #include "Options/Roles/Striker.h"
+#include "Options/Roles/Goalie.h"
 
 #include "Options/Skills/ArmContact.h"
 #include "Options/Skills/GetUp.h"

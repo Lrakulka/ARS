@@ -1,3 +1,4 @@
+
 /** A test goalie option without common decision */
 option(Goalie)
 {
@@ -31,21 +32,21 @@ option(Goalie)
       // determine if the shot was shot
     }
   }
-
+/*
   state(saveShot) 
   {
     action 
     {
       // lay down the goalie
       // if (direction == DIR_LEFT) {
-      /*
+     */ /*
 	// walk to the left
       	WalkToTarget(Pose2f(50.f, 50.f, 50.f), Pose2f(theBallModel.estimate.position.angle(), 0.f, 0.f));
          } else {
 	// walk to the right
       	WalkToTarget(Pose2f(50.f, 50.f, 50.f), Pose2f(theBallModel.estimate.position.angle(), 0.f, 0.f));
          }
-*/
+*/ /*
     }
   }
 
@@ -64,7 +65,7 @@ option(Goalie)
       // WalkToTarget(Pose2f(50.f, 50.f, 50.f), Pose2f(theBallModel.estimate.position.angle(), 0.f, 0.f));
     }
   }
-
+*/
   /* state(alignToGoal)
   {
     transition
