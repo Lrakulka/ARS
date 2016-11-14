@@ -22,6 +22,10 @@ STREAMABLE(SpecialActionRequest,
     sitDown,
     stand,
     standHigh,
+    testAnimation,
+    fallLeft,
+    fallRight,
+    spreadLegs,
   });
 
   /**
