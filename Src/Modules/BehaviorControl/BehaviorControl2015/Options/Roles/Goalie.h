@@ -6,13 +6,13 @@ initial_state(start)
   {
     transition
     {
-      if(state_time > 1000)
+      if(state_time > 3000)
         goto lookAround;
     }
     action
     {
       theHeadControlMode = HeadControl::lookForward;
-      Stand();
+      WalkToTarget(Pose2f(100.f, 100.f, 100.f), Pose2f(0.f, 400.f, 0.f));
     }
   }
 
@@ -43,16 +43,17 @@ state(trackTheBall)
       if(shotDetected)
         goto defendTheShot;
 
-      if(theBallModel.estimate.position.norm() < 1000.f)
+      if(theBallModel.estimate.position.norm() < 900.f)
 	goto defendTheShot;
     }
     action
     {
-      op = np;
+      /*op = np;
       np = theBallModel.estimate.position.norm();
 
     	if((op-np) < 1.0f) //TODO: Pick a proper value through robust testing process!
             shotDetected = 1;
+    */
     }
   }
 
@@ -60,14 +61,14 @@ state(defendTheShot)
   {
     transition
     {
-        if((theBallModel.estimate.position.angle() > 0.2) && (theBallModel.estimate.position.angle() < 3.14))
-        goto dropRight;
-	
-        else if(theBallModel.estimate.position.angle() < 5.84)
+        if((theBallModel.estimate.position.angle() >= 0.1) && (theBallModel.estimate.position.angle() < 3.14))
         goto dropLeft;
 
-	else
-	goto defendCenter;
+        if((theBallModel.estimate.position.angle() <= 6.08) && (theBallModel.estimate.position.angle() > 3.14))
+        goto dropRight;
+
+        if((theBallModel.estimate.position.angle() < 0.1) || (theBallModel.estimate.position.angle() > 6.08))
+	      goto defendCenter;
     }
     action
     {
