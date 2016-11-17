@@ -12,7 +12,7 @@ initial_state(start)
     action
     {
       theHeadControlMode = HeadControl::lookForward;
-      //Stand();
+      Stand();
     }
   }
 
@@ -32,6 +32,8 @@ state(lookAround)
 state(trackTheBall)
   {
     int shotDetected = 0;
+    float op = theBallModel.estimate.position.norm();
+    float np = theBallModel.estimate.position.norm();
 
     transition
     {
@@ -43,29 +45,53 @@ state(trackTheBall)
     }
     action
     {
-        float op = theBallModel.estimate.position.norm();
-        float np = op;
+      op = np;
+      np = theBallModel.estimate.position.norm();
 
-        
-            op = np;
-            np = theBallModel.estimate.position.norm();
-        
-	if((op-np) < 1.0f)
-        shotDetected = 1;
+    	if((op-np) < 1.0f) //TODO: Pick a proper value through robust testing process!
+            shotDetected = 1;
     }
   }
 
 state(defendTheShot)
   {
-//TODO: REMOVE AND REWRITE
     transition
     {
-        if(libCodeRelease.timeSinceBallWasSeen() < 300)
-        goto trackTheBall;
+        if(theBallModel.estimate.position.angle() < 3.14)
+        goto dropLeft;
+
+        if(theBallModel.estimate.position.angle() > 3.14)
+        goto dropRight;
     }
     action
+    {}
+  }
+
+state(dropLeft)
+  {
+    transition
     {
-      theHeadControlMode = HeadControl::lookForward;
+        if(state_time > 5000)
+          goto start;
+    }
+
+    action
+    {
+      //TODO - have the robot fall left
+    }
+  }
+
+state(dropRight)
+  {
+    transition
+    {
+        if(state_time > 5000)
+          goto start;
+    }
+
+    action
+    {
+      //TODO - have the robot fall right
     }
   }
 
@@ -206,4 +232,3 @@ DOTAD MIELISMY
     }
   } */
 }
-
