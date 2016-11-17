@@ -46,13 +46,11 @@ state(trackTheBall)
         float op = theBallModel.estimate.position.norm();
         float np = op;
 
-        do
-        {
+        
             op = np;
             np = theBallModel.estimate.position.norm();
-        }
-        while (op-np < 1.0f);
-
+        
+	if((op-np) < 1.0f)
         shotDetected = 1;
     }
   }
