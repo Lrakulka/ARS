@@ -32,8 +32,8 @@ state(lookAround)
 state(trackTheBall)
   {
     int shotDetected = 0;
-    float op = theBallModel.estimate.position.norm();
-    float np = theBallModel.estimate.position.norm();
+    //float op = theBallModel.estimate.position.norm();
+    //float np = theBallModel.estimate.position.norm();
 
     transition
     {
@@ -61,14 +61,25 @@ state(defendTheShot)
   {
     transition
     {
-        if((theBallModel.estimate.position.angle() >= 0.1) && (theBallModel.estimate.position.angle() < 3.14))
+        /*if((theBallModel.estimate.position.angle() >= 0.05) && (theBallModel.estimate.position.angle() < 3.14))
         goto dropLeft;
 
-        if((theBallModel.estimate.position.angle() <= 6.08) && (theBallModel.estimate.position.angle() > 3.14))
+        else if((theBallModel.estimate.position.angle() <= 6.23) && (theBallModel.estimate.position.angle() > 3.14))
         goto dropRight;
 
-        if((theBallModel.estimate.position.angle() < 0.1) || (theBallModel.estimate.position.angle() > 6.08))
-	      goto defendCenter;
+        if((theBallModel.estimate.position.angle() < 0.05) || (theBallModel.estimate.position.angle() > 6.23))
+        ///else
+        goto defendCenter;*/
+
+        if((theBallModel.estimate.position.angle() >= 10_deg) && (theBallModel.estimate.position.angle() < 180_deg))
+        goto dropLeft;
+
+        else if((theBallModel.estimate.position.angle() <= 350_deg) && (theBallModel.estimate.position.angle() > 180_deg))
+        goto dropRight;
+
+        if((theBallModel.estimate.position.angle() < 10_deg) || (theBallModel.estimate.position.angle() > 350_deg))
+        goto defendCenter;
+
     }
     action
     {
