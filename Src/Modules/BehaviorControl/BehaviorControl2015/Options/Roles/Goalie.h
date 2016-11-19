@@ -64,7 +64,10 @@ state(defendTheShot)
         goto dropRight;
     }
     action
-    {}
+    {
+    	// The robot spread legs if ball forward
+    	SpecialAction(SpecialActionRequest::spreadLegs);
+    }
   }
 
 state(dropLeft)
@@ -77,7 +80,8 @@ state(dropLeft)
 
     action
     {
-      //TODO - have the robot fall left
+      // the robot fall left
+    	SpecialAction(SpecialActionRequest::fallLeft);
     }
   }
 
@@ -91,7 +95,8 @@ state(dropRight)
 
     action
     {
-      //TODO - have the robot fall right
+      // the robot fall right
+    	SpecialAction(SpecialActionRequest::fallRight);
     }
   }
 
