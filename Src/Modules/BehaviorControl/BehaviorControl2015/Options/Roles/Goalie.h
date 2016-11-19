@@ -43,8 +43,10 @@ state(trackTheBall)
       if(shotDetected)
         goto defendTheShot;
 
-      if(theBallModel.estimate.position.norm() < 1200.f)
+      if(theBallModel.estimate.position.norm() < 950.f)
 	goto defendTheShot;
+
+      fprintf(stderr, "norm = %f\n", (float)theBallModel.estimate.position.norm()); 
     }
     action
     {
@@ -68,7 +70,7 @@ state(defendTheShot)
         	goto dropLeft;
 	}
 
-        else if ((theBallModel.estimate.position.angle() <= 6.08) && (theBallModel.estimate.position.angle() > 3.14)) {
+        else if ((theBallModel.estimate.position.angle() <= 6.23) && (theBallModel.estimate.position.angle() > 3.14)) {
 		fprintf(stderr, "Goalie decided to drop right\n");
         	goto dropRight;
 	}
@@ -78,6 +80,16 @@ state(defendTheShot)
 		fprintf(stderr, "Goalie decided to stay at centre\n");
 		goto defendCenter;
 	}
+
+        /* if((theBallModel.estimate.position.angle() >= 10_deg) && (theBallModel.estimate.position.angle() < 180_deg))
+        goto dropLeft;
+
+        else if((theBallModel.estimate.position.angle() <= 350_deg) && (theBallModel.estimate.position.angle() > 180_deg))
+        goto dropRight;
+
+        if((theBallModel.estimate.position.angle() < 10_deg) || (theBallModel.estimate.position.angle() > 350_deg))
+        goto defendCenter;
+*/
     }
     action
     {
