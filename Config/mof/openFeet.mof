@@ -1,0 +1,8 @@
+motion_id = openFeet
+"Animation converted from pos file
+
+label start
+		"		HY		HP		LSP		LSR		LEY		LER		_LWY_		_LH_		RSP		RSR		REY		RER		_RWY_		_RH_		LHYP		LHR		LHP		LKP		LAP		LAR		RHYP		RHR		RHP		RKP		RAP		RAR		Int		Dur
+				0		0		90		10		0		0		0		0		90		-10		0		0		0		0		0		0		0		0		0		0		-		0		0		0		0		0		1		2500		
+
+transition allMotions extern start

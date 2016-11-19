@@ -1,0 +1,15 @@
+motion_id = defenderCentre
+"Animation converted from pos file
+
+label start
+		"		HY		HP		LSP		LSR		LEY		LER		_LWY_		_LH_		RSP		RSR		REY		RER		_RWY_		_RH_		LHYP		LHR		LHP		LKP		LAP		LAR		RHYP		RHR		RHP		RKP		RAP		RAR		Int		Dur
+"# Sit with arms outstretched already"
+"# 0.1   30.9 65   21   0.2  -15  0    0   0    0    -65  120  -59  0    0    -65  120  -59  0    65   -21  0.2  15   0   0  400"
+				0.1		30.9		-6		52		0.2		-15		0		0		-6		-52		0.2		15		0		0		0		0		-65		120		-59		0		-		0		-65		120		-59		0		1		400		
+stiffness		66		66		66		66		66		66		66		0		66		66		66		66		66		0		66		66		66		50		66		66		0		66		66		50		66		66		0		
+"# Centre dive"
+				0.1		34.9		-6		52		0.2		-7		0		0		-6		-52		0.2		7		0		0		-72		16		-40		130		-44		-1		-		-16		-40		130		-44		1		1		300		
+				0.1		35.9		0		60		0.2		-5		0		0		0		-60		0.2		5		0		0		-90		20		-35		130		-44		-1		-		-20		-35		130		-44		1		1		200		
+				0.1		35.9		0		60		0.2		-5		0		0		0		-60		0.2		5		0		0		-90		20		-35		130		-44		-1		-		-20		-35		130		-44		1		1		1000		
+
+transition allMotions extern start

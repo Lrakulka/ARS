@@ -1,0 +1,16 @@
+motion_id = throwIn
+"Animation converted from pos file
+
+label start
+		"		HY		HP		LSP		LSR		LEY		LER		_LWY_		_LH_		RSP		RSR		REY		RER		_RWY_		_RH_		LHYP		LHR		LHP		LKP		LAP		LAR		RHYP		RHR		RHP		RKP		RAP		RAR		Int		Dur
+				0		0		0		5		0		0		0		0		0		-5		0		0		0		0		-67		-20		-90		123		-6		20		-		20		-90		123		-6		-20		1		800		
+"#move arms  down"
+				0		0		22		5		0		0		0		0		22		-5		0		0		0		0		-67		-20		-90		123		-30		0		-		20		-90		123		-30		0		1		700		
+				0		0		22		0		0		-30		0		0		22		0		0		30		0		0		-67		-20		-90		123		-30		0		-		20		-90		123		-30		0		1		300		
+"#move arms  up"
+				0		0		0		0		0		-30		0		0		0		0		0		30		0		0		-67		-20		-90		123		-6		20		-		20		-90		123		-6		-20		1		700		
+				0		0		-100		0		0		-30		0		0		-100		0		0		30		0		0		0		0		-30		60		-30		0		-		0		-30		60		-30		0		1		800		
+				0		0		-60		10		0		-20		0		0		-60		10		0		20		0		0		0		0		-30		60		-30		0		-		0		-30		60		-30		0		1		100		
+				0		0		0		5		0		0		0		0		0		-5		0		0		0		0		0		0		-30		60		-30		0		-		0		-30		60		-30		0		1		5000		
+
+transition allMotions extern start
