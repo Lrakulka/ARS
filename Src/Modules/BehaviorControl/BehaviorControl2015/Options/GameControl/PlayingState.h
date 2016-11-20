@@ -2,19 +2,50 @@ option(PlayingState)
 {
   initial_state(play)
   {
-      transition
-      {
-          // Do 4 half turn's to allow the robot to detect surroundings
-          // At the end of half_turn_4 the robot goes to detection phase
-          // And chooses the appropriate role- striker or goalie (TODO!)
-          goto half_turn_1;
-      }
+    transition
+    {
+      if(state_time > 1000)
+        goto decision_state;
+    }
+    action
+    {
+      theHeadControlMode = HeadControl::lookForward;
+      Stand();
+    }
+  }
+      
+  state(decision_state)
+  {
+  	  transition
+	  {
+	      if(libCodeRelease.timeSinceBallWasSeen() > 7000)
+	        goto searchForBall;
+	  }
       action
       {
-          ;
+	      if(theBallModel.estimate.position.norm() < 1200.f) {
+	          Striker();
+	      } else {
+	      	   Goalie();
+	      }
       }
+  }
+  
+  state(searchForBall)
+  {
+    transition
+    {
+      if(libCodeRelease.timeSinceBallWasSeen() < 300)
+        goto decision_state;
     }
-
+    action
+    {
+      theHeadControlMode = HeadControl::lookForward;    
+      WalkAtSpeedPercentage(Pose2f(1.f, 0.f, 0.f));
+    }
+  }
+  
+  
   state(half_turn_1)
   {
       transition
@@ -24,7 +55,8 @@ option(PlayingState)
       }
       action
       {
-          WalkToTarget(Pose2f(100.f, 100.f, 100.f), Pose2f(3.142f, 0.f, 0.f));
+    	  SpecialAction(SpecialActionRequest::testAnimation);
+          //WalkToTarget(Pose2f(100.f, 100.f, 100.f), Pose2f(3.142f, 0.f, 0.f));
       }
   }
 
@@ -67,21 +99,6 @@ option(PlayingState)
            WalkToTarget(Pose2f(100.f, 100.f, 100.f), Pose2f(3.145f, 0.f, 0.f));
       }
   }
-
-  state(decision_state)
-  {
-      int predicate = 0;
-      action
-      {
-          WalkToTarget(Pose2f(50.f, 50.f, 50.f), Pose2f(theBallModel.estimate.position.angle(), 0.f, 0.f));
-
-          predicate = 0; // TODO: Check distance to the goal
-
-          if (predicate) {
-              Goalie();
-          } else {
-              Striker();
-          }
-      }
-  }
+  
 }
+
