@@ -2,8 +2,7 @@ option(PlayingState)
 {
   initial_state(play)
   {
-    
-    action
+    transition
     {
     	if (theRobotInfo.number != 1) {
     		 Striker();
@@ -13,4 +12,3 @@ option(PlayingState)
     }
   }  
 }
-
