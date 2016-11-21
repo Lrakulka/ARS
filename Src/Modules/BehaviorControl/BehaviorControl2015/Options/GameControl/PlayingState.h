@@ -20,15 +20,39 @@ option(PlayingState)
 	  {
 	      if(libCodeRelease.timeSinceBallWasSeen() > 7000)
 	        goto searchForBall;
+
+              if(theBallModel.estimate.position.norm() < 1200.f) {
+	          goto Striker;
+	      } else {
+	      	  goto Goalie;
+	      }
 	  }
       action
       {
-	      if(theBallModel.estimate.position.norm() < 1200.f) {
-	          Striker();
-	      } else {
-	      	   Goalie();
-	      }
+	      
       }
+  }
+
+  state(Goalie)
+  {
+    transition
+    {
+    }
+    action
+    {
+	Goalie();
+    }
+  }
+
+  state(Striker)
+  {
+    transition
+    {
+    }
+    action
+    {
+	Striker();
+    }
   }
   
   state(searchForBall)
