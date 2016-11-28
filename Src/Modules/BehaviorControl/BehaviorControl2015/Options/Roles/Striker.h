@@ -53,8 +53,11 @@ option(Striker)
     {
       if(libCodeRelease.timeSinceBallWasSeen() > 7000)
         goto searchForBall;
-      if(std::abs(libCodeRelease.angleToGoal) < 10_deg && std::abs(theBallModel.estimate.position.y()) < 100.f)
-        goto alignBehindBall;
+      if(std::abs(libCodeRelease.angleToGoal) < 10_deg && std::abs(theBallModel.estimate.position.y()) < 100.f) {
+	 if (rand() % 2)
+	        goto alignBehindBall2;
+	goto alignBehindBall;
+	}
     }
     action
     {
@@ -71,8 +74,11 @@ option(Striker)
         goto searchForBall;
       if(libCodeRelease.between(theBallModel.estimate.position.y(), 20.f, 50.f)
           && libCodeRelease.between(theBallModel.estimate.position.x(), 140.f, 170.f)
-          && std::abs(libCodeRelease.angleToGoal) < 2_deg)
-        goto kick;
+          && std::abs(libCodeRelease.angleToGoal) < 2_deg) {
+		//if (rand() % 2)
+		        goto left_kick;
+		//goto left_kick;
+	}
     }
     action
     {
@@ -81,7 +87,29 @@ option(Striker)
     }
   }
 
-  state(kick)
+ state(alignBehindBall2)
+  {
+    transition
+    {
+fprintf(stderr, "px = %f  py = %f\n", (float)theBallModel.estimate.position.x(), (float)theBallModel.estimate.position.y());
+      if(libCodeRelease.timeSinceBallWasSeen() > 7000)
+        goto searchForBall;
+      if(libCodeRelease.between(theBallModel.estimate.position.y(), -50.f, -20.f)
+          && libCodeRelease.between(theBallModel.estimate.position.x(), 140.f, 170.f)
+          && std::abs(libCodeRelease.angleToGoal) < 2_deg) {
+		//if (rand() % 2)
+		        goto right_kick;
+		//goto left_kick;
+	}
+    }
+    action
+    {
+      theHeadControlMode = HeadControl::lookForward;
+      WalkToTarget(Pose2f(80.f, 80.f, 80.f), Pose2f(libCodeRelease.angleToGoal, theBallModel.estimate.position.x() - 150.f, theBallModel.estimate.position.y() + 40.f));
+    }
+  }
+
+  state(right_kick)
   {
     transition
     {
@@ -92,7 +120,22 @@ option(Striker)
     {
       Annotation("Alive and Kickin'");
       theHeadControlMode = HeadControl::lookForward;
-      InWalkKick(WalkRequest::left, Pose2f(libCodeRelease.angleToGoal, theBallModel.estimate.position.x() - 160.f, theBallModel.estimate.position.y() - 55.f));
+      InWalkKick(WalkRequest::right, Pose2f(libCodeRelease.angleToGoal, theBallModel.estimate.position.x() - 160.f, theBallModel.estimate.position.y() - 55.f));
+    }
+  }
+
+  state(left_kick)
+  {
+    transition
+    {
+      if(state_time > 3000 || (state_time > 10 && action_done))
+        goto start;
+    }
+    action
+    {
+      Annotation("Alive and Kickin'");
+      theHeadControlMode = HeadControl::lookForward;
+      InWalkKick(WalkRequest::right, Pose2f(libCodeRelease.angleToGoal, theBallModel.estimate.position.x() + 160.f, theBallModel.estimate.position.y() - 55.f));
     }
   }
   
