@@ -14,6 +14,9 @@ transition testAnimation testAnimation start
 transition fallLeft fallLeft start
 transition fallRight fallRight start
 transition spreadLegs spreadLegs start
+transition fallLeftM fallLeftM start
+transition fallRightM fallRightM start
+transition spreadLegsM spreadLegsM start
 
 "This line must be the last one
 transition extern extern start

@@ -1,5 +1,5 @@
-motion_id = testAnimation
-"Animation converted from pos file
+motion_id = spreadLegsM
+"Switch off all joints
 
 label start
 		"		HY		HP		LSP		LSR		LEY		LER		_LWY_		_LH_		RSP		RSR		REY		RER		_RWY_		_RH_		LHYP		LHR		LHP		LKP		LAP		LAR		RHYP		RHR		RHP		RKP		RAP		RAR		Int		Dur
@@ -9,9 +9,7 @@ label start
 "#wider and arms inbetween legs"
 				0		60		40		-40		-78		-44		-45			0			40		40		78		44		-44			-44		-67		17		-89		63		56		-7		-		-17		-89		63		56		6		1		100		
 "#pause and limp legs"
-				0		60		40		-40		-78		-44		-45			0			40		40		78		44		-44			-44		-67		17		-89		63		56		-7		-		-17		-89		63		56		6		1		1000		
+				0		60		40		-40		-78		-44		-45			0			40		40		78		44		-44			-44		-67		17		-89		63		56		-7		-		-17		-89		63		56		6		1		6000		
 stiffness		100		100		100		100		100		100		100			100		100		100		100		100		100		100		0		0		0		0		0		0		0		0		0		0		0		0		0		
 
 transition allMotions extern start
-
-

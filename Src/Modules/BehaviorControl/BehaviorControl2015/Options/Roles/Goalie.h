@@ -6,13 +6,13 @@ initial_state(start)
   {
     transition
     {
-      if(state_time > 3000)
+      if(state_time > 1000)
         goto lookAround;
     }
     action
     {
       theHeadControlMode = HeadControl::lookForward;
-      WalkToTarget(Pose2f(100.f, 100.f, 100.f), Pose2f(0.f, 200.f, 0.f));
+      // WalkToTarget(Pose2f(100.f, 100.f, 100.f), Pose2f(0.f, 200.f, 0.f));
     }
   }
 
@@ -116,7 +116,7 @@ state(defendCenter)
       action
       {
        	// The robot spread legs if ball forward
-    	SpecialAction(SpecialActionRequest::spreadLegs);
+    	SpecialAction(SpecialActionRequest::spreadLegsM);
       }
     }
 
@@ -131,7 +131,7 @@ state(dropLeft)
     action
     {
       // the robot fall left
-    	SpecialAction(SpecialActionRequest::fallLeft);
+    	SpecialAction(SpecialActionRequest::fallLeftM);
     }
   }
 
@@ -146,7 +146,7 @@ state(dropRight)
     action
     {
       // the robot fall right
-    	SpecialAction(SpecialActionRequest::fallRight);
+    	SpecialAction(SpecialActionRequest::fallRightM);
     }
   }
 
