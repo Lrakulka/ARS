@@ -12,7 +12,7 @@ option(HandleGameState)
     else if(theGameInfo.state == STATE_FINISHED)
       goto finished;
     else if(theFallDownState.state != FallDownState::upright && theFallDownState.state != FallDownState::undefined)
-      goto getUp; // state getUp over improvment becose GoalKeeper must lie down
+      goto getUp;
     else if(theGameInfo.state == STATE_READY)
       goto ready;
     else if(theGameInfo.state == STATE_SET)
@@ -55,10 +55,8 @@ option(HandleGameState)
   {
     action
     {
-    	if (state_time > 5000 || theRobotInfo.number != 1) {
-		  Annotation("Getting up.");
-		  GetUp();
-    	}
+	  Annotation("Getting up.");
+	  GetUp();
     }
   }
 
