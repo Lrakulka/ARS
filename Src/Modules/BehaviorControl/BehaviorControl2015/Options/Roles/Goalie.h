@@ -12,7 +12,7 @@ initial_state(start)
     action
     {
       theHeadControlMode = HeadControl::lookForward;
-      WalkToTarget(Pose2f(100.f, 100.f, 100.f), Pose2f(0.f, 400.f, 0.f));
+      WalkToTarget(Pose2f(100.f, 100.f, 100.f), Pose2f(0.f, 200.f, 0.f));
     }
   }
 
@@ -43,7 +43,7 @@ state(trackTheBall)
       if(shotDetected)
         goto defendTheShot;
 
-      if(theBallModel.estimate.position.norm() < 950.f)
+      if(theBallModel.estimate.position.norm() < 1100.f)
 	goto defendTheShot;
 
       fprintf(stderr, "norm = %f\n", (float)theBallModel.estimate.position.norm());
@@ -66,12 +66,12 @@ state(defendTheShot)
 
       fprintf(stderr, "Angle: %f\n", theBallModel.estimate.position.angle());
 
-          if (theBallModel.estimate.position.angle() >= 0.05) {
+          if (theBallModel.estimate.position.angle() >= 0.04) {
   		      fprintf(stderr, "Goalie decided to drop left\n");
           	goto dropLeft;
   	       }
 
-          else if (theBallModel.estimate.position.angle() <= -0.05) {
+          else if (theBallModel.estimate.position.angle() <= -0.04) {
       		  fprintf(stderr, "Goalie decided to drop right\n");
             goto dropRight;
       	   }
