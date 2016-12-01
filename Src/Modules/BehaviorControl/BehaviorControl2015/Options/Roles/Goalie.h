@@ -1,153 +1,128 @@
-/** A test goalie option without common decision */
+/**
+ * Goalie behaviour
+ */
 option(Goalie)
 {
-
-initial_state(start)
+  // Initially, goalie stands still for a one second
+  initial_state(start)
   {
     transition
     {
-      if(state_time > 1000)
-        goto lookAround;
+      if (state_time > 1000) // After one second
+        goto lookAround; // Go to "looking around" state
     }
     action
     {
-      theHeadControlMode = HeadControl::lookForward;
-      // WalkToTarget(Pose2f(100.f, 100.f, 100.f), Pose2f(0.f, 200.f, 0.f));
+      theHeadControlMode = HeadControl::lookForward; // stand stil with head straight
     }
   }
 
-state(lookAround)
+  // Goalie keeps rotating his head, in order to cover as much field space as possible
+  state(lookAround)
   {
     transition
     {
-        if(libCodeRelease.timeSinceBallWasSeen() < 300)
-        goto trackTheBall;
+        if (libCodeRelease.timeSinceBallWasSeen() < 300) // If a ball is lost from the sight
+          goto trackTheBall; // Look for the ball
     }
     action
     {
-      theHeadControlMode = HeadControl::lookLeftAndRight;
+      theHeadControlMode = HeadControl::lookLeftAndRight; // While in state, keep rotating robot's head
     }
   }
 
-state(trackTheBall)
+  // Goalie tries to detect the moment, when the shot is made by the striker
+  state(trackTheBall)
   {
-    int shotDetected = 0;
-    //float op = theBallModel.estimate.position.norm();
-    //float np = theBallModel.estimate.position.norm();
-
     transition
     {
-      if(libCodeRelease.timeSinceBallWasSeen() > 7000)
-        goto lookAround;
+      if (libCodeRelease.timeSinceBallWasSeen() > 7000) // If the ball is lost from the sight
+        goto lookAround;  // Look for the ball
 
-      if(shotDetected)
-        goto defendTheShot;
+      if(theBallModel.estimate.position.norm() < 1100.f) // If the ball is close enough
+	      goto defendTheShot; // It means, that the shot has been made and it should be defended
 
-      if(theBallModel.estimate.position.norm() < 1100.f)
-	goto defendTheShot;
-
+      // Optionally, it is possible to print to the terminal distance to the ball
       fprintf(stderr, "norm = %f\n", (float)theBallModel.estimate.position.norm());
     }
     action
     {
-      /*op = np;
-      np = theBallModel.estimate.position.norm();
-
-    	if((op-np) < 1.0f) //TODO: Pick a proper value through robust testing process!
-            shotDetected = 1;
-    */
+      ;
     }
   }
 
-state(defendTheShot)
+  // Goalie tries to defend the shot made by the striker
+  state(defendTheShot)
   {
     transition
     {
-
+      // Optionally, it is possible to print to the terminal angle to the ball
       fprintf(stderr, "Angle: %f\n", theBallModel.estimate.position.angle());
 
-          if (theBallModel.estimate.position.angle() >= 0.04) {
-  		      fprintf(stderr, "Goalie decided to drop left\n");
-          	goto dropLeft;
-  	       }
-
-          else if (theBallModel.estimate.position.angle() <= -0.04) {
-      		  fprintf(stderr, "Goalie decided to drop right\n");
-            goto dropRight;
-      	   }
-
-           else      {
-      		  fprintf(stderr, "Goalie decided to stay at centre\n");
-      		  goto defendCenter;
-      	}
-
-/*	fprintf(stderr, "Angle: %f\n", theBallModel.estimate.position.angle());
-
-        if ((theBallModel.estimate.position.angle() >= 0.06) && (theBallModel.estimate.position.angle() < 3.14)) {
-		fprintf(stderr, "Goalie decided to drop left\n");
-        	goto dropLeft;
-	}
-
-        else if ((theBallModel.estimate.position.angle() <= 6.23) && (theBallModel.estimate.position.angle() > 3.14)) {
-		fprintf(stderr, "Goalie decided to drop right\n");
-        	goto dropRight;
-	}
-
-  else      {
-		fprintf(stderr, "Goalie decided to stay at centre\n");
-		goto defendCenter;
-	}
-*/
+      // If the angle is high enough, it means that the goalie should drop left
+      if (theBallModel.estimate.position.angle() >= 0.04) {
+        fprintf(stderr, "Goalie decided to drop left\n");
+        goto dropLeft;
+      }
+      // If the angle is low enough, it means that the goalie should drop right
+      else if (theBallModel.estimate.position.angle() <= -0.04) {
+        fprintf(stderr, "Goalie decided to drop right\n");
+        goto dropRight;
+      }
+      // Else, the ball is coming to the center of the ball, so goalie should stay
+      else {
+        fprintf(stderr, "Goalie decided to stay at centre\n");
+        goto defendCenter;
+      }
     }
     action
     {
-
+      ;
     }
   }
 
-state(defendCenter)
-    {
-      transition
-      {
-        if(state_time > 5000)
-          goto start;
-      }
-
-      action
-      {
-       	// The robot spread legs if ball forward
-    	SpecialAction(SpecialActionRequest::spreadLegsM);
-      }
-    }
-
-state(dropLeft)
+  // Goalie tries to defend at the center of the goal
+  state(defendCenter)
   {
     transition
     {
-        if(state_time > 5000)
-          goto start;
+      if (state_time > 5000) // After 5 seconds of defending at the center
+        goto start; // Goalie should stand up
     }
-
     action
     {
-      // the robot fall left
+     	// The robot spreads his legs to cover more area of the goal
+    	SpecialAction(SpecialActionRequest::spreadLegsM);
+    }
+  }
+
+  // Goalie tries to drop to his left
+  state(dropLeft)
+  {
+    transition
+    {
+      if (state_time > 5000) // After 5 seconds of defending
+        goto start; // Goalie should stand up
+    }
+    action
+    {
+      // The robot falls to his left
     	SpecialAction(SpecialActionRequest::fallLeftM);
     }
   }
 
-state(dropRight)
+  // Goalie tries to drop to his right
+  state(dropRight)
   {
     transition
     {
-        if(state_time > 5000)
-          goto start;
+      if (state_time > 5000) // After 5 seconds of defending
+        goto start; // Goalie should stand up
     }
-
     action
     {
-      // the robot fall right
+      // The robot falls to his right
     	SpecialAction(SpecialActionRequest::fallRightM);
     }
   }
-
 }
